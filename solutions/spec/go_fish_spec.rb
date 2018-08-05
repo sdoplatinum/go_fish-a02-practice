@@ -1,8 +1,8 @@
 require 'go_fish'
 
 describe GoFish do
-    let(:pl1) {AIPlayer.new([Card.new(:spades, :ace)])}
-    let(:pl2) {AIPlayer.new([Card.new(:hearts, :queen)])}
+    let(:pl1) {AIPlayer.new([Card.new(:clubs, :deuce)])}
+    let(:pl2) {AIPlayer.new([Card.new(:clubs, :three)])}
     let(:pl3) {AIPlayer.new(Deck.all_cards)}
     subject(:game) {GoFish.new([pl1, pl2, pl3])}
 
@@ -71,4 +71,25 @@ describe GoFish do
     end
   end
 
+  describe '#play_game !!!MAY CAUSE INFINITE LOOP!!!' do
+    pl1 = AIPlayer.new([Card.new(:clubs, :deuce)])
+    pl2 = AIPlayer.new([Card.new(:clubs, :three)])
+    pl3 = AIPlayer.new(Deck.all_cards.drop(2))
+    game = GoFish.new([pl1, pl2, pl3])
+
+    it "should call #take_turn on players until the game is over" do
+      expect(pl1).to receive(:take_turn).at_least(:once)
+      game.play_game
+      expect(game.books_complete).to be 13
+    end
+
+    pl1 = AIPlayer.new([Card.new(:clubs, :deuce)])
+    pl2 = AIPlayer.new([Card.new(:clubs, :three)])
+    pl3 = AIPlayer.new(Deck.all_cards.drop(2))
+    game = GoFish.new([pl1, pl2, pl3])
+
+    it "returns the winning player" do
+      expect(game.play_game).to be(pl3)
+    end
+  end
 end

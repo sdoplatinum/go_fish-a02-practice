@@ -34,6 +34,14 @@ class GoFish
     players[current_player_idx]
   end
 
+  def play_game
+    until game_over?
+      current_player.take_turn(self, deck)
+      switch_players
+    end
+    players.sort_by { |player| player.score }.last
+  end
+
   private
 
   attr_writer :current_player_idx
