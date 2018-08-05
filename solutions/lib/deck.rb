@@ -23,7 +23,10 @@ class Deck
 
   # Takes `n` cards from the top of the deck (front of the cards array).
   def take(n)
-    fail 'not enough cards' if count < n
+    if count < n
+      return @cards
+      @cards = []
+    end
     @cards.shift(n)
   end
 

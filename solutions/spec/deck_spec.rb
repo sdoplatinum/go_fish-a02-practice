@@ -61,10 +61,13 @@ describe Deck do
       expect(deck.count).to eq(1)
     end
 
-    it "doesn't allow you to take more cards than are in the deck" do
-      expect do
-        deck.take(4)
-      end.to raise_error("not enough cards")
+    it "gives up all remaing cards is request if for more cards than left in deck" do
+      expect(deck.take(4).count).to be 3
+    end
+
+    it "returns an empty array if no cards are left to give" do
+      deck.take(3)
+      expect(deck.take(1)).to eq([])
     end
   end
 
