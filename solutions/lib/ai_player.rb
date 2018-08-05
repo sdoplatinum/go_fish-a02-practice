@@ -1,4 +1,5 @@
 require 'deck'
+require 'byebug'
 
 class AIPlayer
 
@@ -37,7 +38,7 @@ class AIPlayer
       self.hand = deck.take(5) if hand.empty?
       return demanded_cards
     end
-    
+
     raise "Go Fish!"
   end
 
@@ -52,7 +53,6 @@ class AIPlayer
     hand.each { |card| card_count[card.value] += 1 }
 
     books = card_count.select { |_, count| count == 4 }
-
     books.each do |value, _|
       self.score += 1
       game.register_book

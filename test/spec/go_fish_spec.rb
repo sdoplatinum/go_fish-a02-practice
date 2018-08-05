@@ -1,10 +1,10 @@
 require 'go_fish'
 
 describe GoFish do
-  pl1 = AIPlayer.new([Card.new(:spades, :ace)])
-  pl2 = AIPlayer.new([Card.new(:hearts, :queen)])
-  pl3 = AIPlayer.new(Deck.all_cards)
-  subject(:game) {GoFish.new([pl1, pl2, pl3])}
+    let(:pl1) {AIPlayer.new([Card.new(:spades, :ace)])}
+    let(:pl2) {AIPlayer.new([Card.new(:hearts, :queen)])}
+    let(:pl3) {AIPlayer.new(Deck.all_cards)}
+    subject(:game) {GoFish.new([pl1, pl2, pl3])}
 
   describe '#initialize' do
     it "creates an isntance of the GoFish class" do
@@ -22,21 +22,28 @@ describe GoFish do
     end
 
     it "sends a list of their opponents to each player" do
+      pl1 = AIPlayer.new()
+      pl2 = AIPlayer.new()
+      game = GoFish.new([pl1, pl2])
       expect(pl1.opponents).to include(pl2)
       expect(pl2.opponents).to include(pl1)
     end
 
     it "does not include the player in his own list of opponents" do
+      pl1 = AIPlayer.new()
+      pl2 = AIPlayer.new()
+      game = GoFish.new([pl1, pl2])
       expect(pl1.opponents).not_to include(pl1)
       expect(pl2.opponents).not_to include(pl2)
     end
   end
 
-  # describe '#register_book' do
-  #   it "increments the numebr of books registered by players" do
-  #
-  #   end
-  # end
+  describe '#register_book' do
+    it "increments the numebr of books as they are registered by players" do
+      pl3.discard_books(game)
+      expect(game.books_complete).to be 13
+    end
+  end
 
   describe '#game_over?' do
     it "determines that the game is over if the players have accumilated 13 points" do
