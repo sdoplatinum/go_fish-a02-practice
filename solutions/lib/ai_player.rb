@@ -62,7 +62,9 @@ class AIPlayer
 
   #Takes a turn.
   def take_turn(game, deck)
-    request_card(deck)
+    loop do
+      request_card(deck)
+    end
     rescue
       go_fishing(deck)
     ensure

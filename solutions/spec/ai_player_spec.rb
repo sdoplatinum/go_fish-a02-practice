@@ -152,11 +152,18 @@ describe AIPlayer do
 
   describe '#take_turn' do
     let(:alpha_hal) {double 'alpha_hal'}
-
+    let(:hal2000) {AIPlayer.new([Card.new(:clubs, :queen)])}
 
     it "requests a card from a player" do
       expect(hal).to receive(:request_card)
       hal.take_turn(some_game, some_deck )
+    end
+
+    it "keeps requesting cards until sent to go fish" do
+      hal.opponents << hal2000
+      expect(hal).to receive(:go_fishing)
+      hal.take_turn(:game, some_deck)
+      expect(hal.hand).to include(Card.new(:clubs, :queen))
     end
 
     it "goes fishing when the opponent returns a 'Go Fish!' error" do
